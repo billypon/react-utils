@@ -96,6 +96,7 @@ export class TableComponent<P = ListProps, S extends ListState = ListState, T = 
   pageSize = 10
   totalCount = 0
   pagination = true
+  showSizeChanger = true
 
   private TableX = (props: TableProps<T>) => {
     const dataSource = props.dataSource || this.state.items
@@ -103,7 +104,9 @@ export class TableComponent<P = ListProps, S extends ListState = ListState, T = 
       current: this.pageNumber,
       pageSize: this.pageSize,
       total: this.totalCount,
+      showSizeChanger: this.showSizeChanger,
       onChange: this.changePage,
+      onShowSizeChange: this.onShowSizeChange,
     }
     return (
       <TableX
@@ -119,6 +122,11 @@ export class TableComponent<P = ListProps, S extends ListState = ListState, T = 
 
   protected changePage = (page: number) => {
     this.pageNumber = page
+    this.loadItems()
+  }
+
+  protected changePage = (current: number, size: number) => {
+    this.pageNumber = size
     this.loadItems()
   }
 
