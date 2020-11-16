@@ -22,18 +22,8 @@
     "src/ajax.ts",
     "src/api.ts",
     "src/axios.ts",
-    "src/captcha/aliyun.ts",
     "src/common.ts",
-    "src/config.ts",
-    "src/dragable-table.tsx",
-    "src/form.tsx",
-    "src/form/validators",
-    "src/modal.tsx",
-    "src/next.tsx",
-    "src/react.ts",
-    "src/simple-form.tsx",
-    "src/table.tsx",
-    "node_modules/next/types/global.d.ts"
+    "src/react.ts"
   ]
 }
 

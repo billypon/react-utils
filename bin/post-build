@@ -8,5 +8,3 @@ var package = require('../package.json');
 delete package.scripts;
 delete package.devDependencies;
 fs.writeFileSync('dist/package.json', JSON.stringify(package, null, 2));
-
-fs.copyFileSync('src/dragable-table.css', 'dist/dragable-table.css');

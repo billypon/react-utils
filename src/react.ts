@@ -1,17 +1,10 @@
 import React from 'react'
-import { WithRouterProps } from 'next/dist/client/with-router'
 import { Observable } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
-import Template from '@billypon/react-template'
-import { StringDictionary } from '@billypon/ts-types'
 
-export class Component<P = { }, S = { }> extends React.Component<WithRouterProps & P, S> {
-  readonly query: StringDictionary
-  readonly Template = Template
-
+export class Component<P = unknown, S = unknown> extends React.PureComponent<P, S> {
   constructor(props) {
     super(props)
-    this.query = props.router && props.router.query as StringDictionary
     this.state = this.getInitialState() as S
   }
 
@@ -30,10 +23,6 @@ export class Component<P = { }, S = { }> extends React.Component<WithRouterProps
     }).pipe(shareReplay(1))
     observable.subscribe()
     return observable
-  }
-
-  triggerUpdate(): Observable<void> {
-    return this.setState(this.state)
   }
 
   forceUpdate(): Observable<void> {

@@ -1,16 +1,23 @@
 import Axios from 'axios-observable'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import pino from 'pino'
 
-import { browser } from './common'
+export type AxiosLoggerFn = (object: unknown, message: string) => void
 
-const logger = pino({
-  name: 'axios',
-  level: browser ? localStorage.log || 'silent' : 'error',
-  prettyPrint: {
-    translateTime: 'SYS:yyyy-mm-dd HH:MM:ss.l',
-  },
-})
+export interface AxiosLogger {
+  debug: AxiosLoggerFn
+  info: AxiosLoggerFn
+  error: AxiosLoggerFn
+}
+
+let logger: AxiosLogger = {
+  debug: console.debug,
+  info: console.info,
+  error: console.error,
+}
+
+export function setLogger(axiosLogger: AxiosLogger): void {
+  logger = axiosLogger
+}
 
 function getLogMsg({ method, url, baseURL }: AxiosRequestConfig): string {
   return `${ method.toUpperCase() } ${ (baseURL && url.substr(0, baseURL.length) !== baseURL ? baseURL : '') + url }`

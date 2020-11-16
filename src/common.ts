@@ -1,15 +1,13 @@
-import router from 'next/router'
 import qs from 'qs'
 import { Dictionary } from '@billypon/ts-types'
 
-export const dev = process.env.NODE_ENV !== 'production'
-export const browser = process.browser
+export const isProd = process.env.NODE_ENV === 'production'
 
-export function getQueryParams(): Dictionary<string> {
-  return qs.parse(window.location.search.substr(1))
+export function getQueryParams<T = qs.ParsedQs>(): T {
+  return qs.parse(window.location.search.substr(1)) as unknown as T
 }
 
-export function buildUrl({ origin = '', path, query, hash = ''}: { origin?: string; path: string; query?: Dictionary; hash?: string }): string {
+export function buildUrl({ origin = '', path, query, hash = ''}: { origin?: string; path: string; query?: qs.ParsedQs | Dictionary; hash?: string }): string {
   return `${ origin }${ path }${ query ? `?${ qs.stringify(query) }` : '' }${ hash ? `#${ hash }` : '' }`
 }
 
@@ -32,22 +30,6 @@ export function getLogoutUrl(currentUrl?: string): string {
     path: '/logout',
     query: redirectUrl !== currentUrl ? { redirect: redirectUrl } : null,
   })
-}
-
-export function redirectToLogin(current?: string): void {
-  router.push(getLoginUrl(current))
-}
-
-export function replaceToLogin(current?: string): void {
-  router.replace(getLoginUrl(current))
-}
-
-export function redirectToLogout(current?: string): void {
-  router.push(getLogoutUrl(current))
-}
-
-export function replaceToLogout(current?: string): void {
-  router.replace(getLogoutUrl(current))
 }
 
 export function getParentNode(triggerNode: HTMLElement): HTMLElement {

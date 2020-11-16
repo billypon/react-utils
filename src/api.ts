@@ -32,7 +32,7 @@ export function ApiClass({ port, getBaseUrl, getPipes }: ApiClassOptions) {
       const pipes = getPipes ? getPipes(opts) : [ ]
       const fn = prototype[x]
       prototype[x] = function () {
-        const observable: AxiosObservable<any> = fn.apply(this, arguments)
+        const observable: AxiosObservable<unknown> = fn.apply(this, arguments)
         return observable.pipe.apply(observable, [ parseResponse, ...pipes ])
       }
     })
