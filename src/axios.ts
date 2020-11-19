@@ -1,5 +1,6 @@
 import Axios from 'axios-observable'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { StringDictionary } from '@billypon/ts-types'
 
 export type AxiosLoggerFn = (object: unknown, message: string) => void
 
@@ -9,25 +10,34 @@ export interface AxiosLogger {
   error: AxiosLoggerFn
 }
 
-let logger: AxiosLogger = {
-  debug: console.debug,
-  info: console.info,
-  error: console.error,
-}
-
-export function setLogger(axiosLogger: AxiosLogger): void {
-  logger = axiosLogger
-}
-
-function getLogMsg({ method, url, baseURL }: AxiosRequestConfig): string {
+export function getLogMsg({ method, url, baseURL }: AxiosRequestConfig): string {
   return `${ method.toUpperCase() } ${ (baseURL && url.substr(0, baseURL.length) !== baseURL ? baseURL : '') + url }`
 }
 
-function getConfigMsg({ url, method, params, data, headers }: AxiosRequestConfig) {
-  return { url, method, params, data, headers }
+export function getFullUrl({ url, baseURL }: AxiosRequestConfig): string {
+  return (baseURL && url.substr(0, baseURL.length) !== baseURL ? baseURL : '') + url
 }
 
-function getResponseMsg(response: AxiosResponse) {
+export function getConfigMsg({ baseURL, url, method, params, data, headers }: AxiosRequestConfig) {
+  const methods = [ 'common', 'head', 'get', 'post', 'put', 'patch', 'delete' ]
+  const dict: StringDictionary = { }
+  if (headers.common) {
+    Object.entries(headers.common).forEach(([ key, value ]) => {
+      dict[key] = value as string
+    })
+    Object.entries(headers[method]).forEach(([ key, value ]) => {
+      dict[key] = value as string
+    })
+    Object.entries(headers).forEach(([ key, value ]) => {
+      if (!methods.includes(key)) {
+        dict[key] = value as string
+      }
+    })
+  }
+  return { baseURL, url, method, params, data, headers: headers.common ? dict : headers }
+}
+
+export function getResponseMsg(response: AxiosResponse) {
   if (!response) {
     return null
   }
@@ -35,7 +45,12 @@ function getResponseMsg(response: AxiosResponse) {
   return { data, status, statusText, headers }
 }
 
-function useInterceptors(axios: Axios): void {
+function useInterceptors(axios: Axios, logger: AxiosLogger): void {
+  logger = logger || {
+    debug: console.debug,
+    info: console.info,
+    error: console.error,
+  }
   axios.interceptors.request.use(config => {
     logger.debug(getConfigMsg(config), getLogMsg(config))
     return config
@@ -53,7 +68,5 @@ function useInterceptors(axios: Axios): void {
     return Promise.reject(response && response.data)
   })
 }
-
-useInterceptors(Axios as any)
 
 export { useInterceptors }
