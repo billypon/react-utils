@@ -18,11 +18,6 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@billypon/rxjs-types@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@billypon/rxjs-types/-/rxjs-types-0.1.0.tgz#0733107b540f5075e8a623a6cface4c0d93cc460"
-  integrity sha512-EOhR7tujtPG1NQ38yrus1GcY2DthJJcm6KbIBPt/BdWffBY0mBV5EGCaeMGQ4syqC31P7+VDhEwtTMU0XW+I0w==
-
 "@billypon/ts-types@0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@billypon/ts-types/-/ts-types-0.1.2.tgz#fd92ab4e302df4b3cbda79880a7ca5bd0d423a7b"

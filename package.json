@@ -8,7 +8,6 @@
     "lint": "tslint -p ."
   },
   "devDependencies": {
-    "@billypon/rxjs-types": "0.1.0",
     "@billypon/ts-types": "0.1.2",
     "@types/node": "14.14.7",
     "@types/qs": "6.9.5",
@@ -23,7 +22,6 @@
     "typescript": "4.0.5"
   },
   "peerDependencies": {
-    "@billypon/rxjs-types": "*",
     "@billypon/ts-types": "*",
     "axios": "*",
     "axios-observable": "*",

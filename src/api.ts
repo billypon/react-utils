@@ -1,7 +1,6 @@
 import { AxiosObservable } from 'axios-observable/lib/axios-observable.interface'
-import { Observable } from 'rxjs'
+import { Observable, MonoTypeOperatorFunction } from 'rxjs'
 import { map, shareReplay } from 'rxjs/operators'
-import { ObservablePipe } from '@billypon/rxjs-types'
 import { Dictionary } from '@billypon/ts-types'
 import 'reflect-metadata'
 
@@ -15,7 +14,7 @@ function getSymbol(target: Function): symbol {
 
 export type GetBaseUrlFn = () => string
 
-export type GetPipesFn = (options: Dictionary) => ObservablePipe[]
+export type GetPipesFn = (options: Dictionary) => MonoTypeOperatorFunction<any>[]
 
 export interface ApiClassOptions {
   port: number
