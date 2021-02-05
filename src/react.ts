@@ -2,7 +2,7 @@ import React from 'react'
 import { Observable } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
-export class Component<P = unknown, S = unknown> extends React.PureComponent<P, S> {
+export class Component<P = unknown, S = unknown> extends React.Component<P, S> {
   constructor(props) {
     super(props)
     this.state = this.getInitialState() as S
